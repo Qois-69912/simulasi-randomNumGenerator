@@ -1,10 +1,10 @@
 fn main() {
     // LCG
-    let c: i32 = 10000;
-    let m: i32 = 90;
-    let a: i32 = 9;
-    let x0: i32 = 100;
-    let x1: i32 = ((a * x0) + c) % m;
+    let c: i64 = 1013904223;
+    let m: i64 = 4294967296;
+    let a: i64 = 1664525;
+    let x0: i64 = 100;
+    let x1: i64 = ((a * x0) + c) % m;
 
     println!("{}", x1)
 }
