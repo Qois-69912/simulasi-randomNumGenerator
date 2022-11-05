@@ -1,4 +1,5 @@
 use chrono::*;
+use colored::*;
 use std::io;
 use std::io::Write;
 
@@ -6,6 +7,10 @@ use std::io::Write;
 fn usr_int(msg: String) -> i64 {
     let int: i64;
 
+    // Terus melakakukan loop hingga user memasukkan angka //
+    /* KEKURANGAN :
+        Tidak menampilkan pesan error ketika user tidak
+    memasukkan angka */
     loop {
         print!("{}", msg);
         io::stdout().flush().unwrap();
@@ -16,9 +21,10 @@ fn usr_int(msg: String) -> i64 {
             .read_line(&mut input)
             .expect("Error getting guess");
 
+        // Make sure it is number
         int = match input.trim().parse() {
             Ok(num) => num,
-            Err(_) => continue,
+            Err(_) => continue, // Memulai loop
         };
 
         break;
@@ -32,6 +38,7 @@ fn main() {
     let lc: DateTime<Local> = Local::now();
 
     // LCG
+    // Untuk keterangan cek README
     let c: i64 = 1013904223;
     let m: i64 = 4294967296;
     let a: i64 = 1664525;
@@ -43,15 +50,23 @@ fn main() {
     let awal: i64;
     let akhir: i64;
 
-    println!("==== NUMBER GENERATOR ==== \n");
-    println!("Generate angka");
-    awal = usr_int("Antara angka : ".to_string());
-    akhir = usr_int("Dan angka : ".to_string());
+    println!("");
+    println!("{}", "==============================".yellow().bold());
+    println!("{}", "====== NUMBER GENERATOR ======".yellow().bold());
+    println!("{}", "==============================".yellow().bold());
+
+    println!("");
+    println!("{}", "Generate angka".cyan().bold());
+
+    // Get The user Input
+    awal = usr_int("Antara angka : ".green().bold().to_string());
+    akhir = usr_int("Dan angka : ".green().to_string());
 
     // Generate random numbers within a range
     let offset: i64;
     let range: i64;
 
+    // Calculate the range
     if awal > akhir {
         offset = akhir;
         range = awal - akhir;
@@ -60,8 +75,26 @@ fn main() {
         range = akhir - awal;
     }
 
-    let result: i64 = offset + (x1 % range);
+    // Calculate hasil berdasarkan user input
+    // Jika rangenya 0, maka result sama dengan user input (Tentu saja)
+    let result: i64;
+    if range != 0 {
+        result = offset + (x1 % range);
+    } else {
+        result = awal
+    }
 
     // Resultttt
-    println!("Angka acak {} dan {} adalah : {}", awal, akhir, result);
+    // Format : Angka Acak antara x dan y adalah : z
+    println!(
+        "{} {} {} {} {} {}",
+        format!("Angka Acak antara").cyan().bold(),
+        awal,
+        format!("dan").cyan().bold(),
+        akhir,
+        format!("adalah :").cyan().bold(),
+        String::from(result.to_string()).red().bold()
+    );
+
+    println!("");
 }
