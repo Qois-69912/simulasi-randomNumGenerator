@@ -42,9 +42,17 @@ fn main() {
     let c: i64 = 1013904223;
     let m: i64 = 4294967296;
     let a: i64 = 1664525;
-    let x0: i64 = (lc.hour() as i64 * lc.minute() as i64 * lc.second() as i64)
+    let mut x0: i64 = lc.hour() as i64 * lc.minute() as i64 * lc.second() as i64
         + lc.day() as i64 * lc.year() as i64 * lc.month() as i64;
-    let x1: i64 = ((a * x0) + c) % m;
+    let mut xa: i64 = 0;
+
+    // Melakukan loop hingga 4 kali siklus
+    let mut i = 0;
+    while i < 8 {
+        xa = ((a * x0) + c) % m;
+        x0 = xa;
+        i += 1;
+    }
 
     // User Input
     let awal: i64;
@@ -79,7 +87,7 @@ fn main() {
     // Jika rangenya 0, maka result sama dengan user input (Tentu saja)
     let result: i64;
     if range != 0 {
-        result = offset + (x1 % range);
+        result = offset + (xa % range);
     } else {
         result = awal
     }
